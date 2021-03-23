@@ -16,16 +16,8 @@ import {
      this.timer = null;
      this.iniciar=this.iniciar.bind(this);
      this.limpar=this.limpar.bind(this);
-
-    
-
 }
-
-
-
-  
-
-   iniciar(){
+    iniciar(){
      if(this.timer != null){
        clearInterval(this.timer);
        this.timer = null;
