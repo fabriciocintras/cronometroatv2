@@ -3,16 +3,20 @@ import {
   View,
   Text, 
   StyleSheet, 
-  Image, TouchableOpacity, TextInput
+  Image, TouchableOpacity, TextInput, ScrollView
 } from "react-native";
 
  class Cronometro extends Component {
+  
    constructor(props){
      super(props);
      this.state = {
        numero:0,
        botao: 'INICIAR',
+       mensagens:[<Text>Numero de voltas:</Text>]
+      
       }
+
      this.timer = null;
      this.iniciar=this.iniciar.bind(this);
      this.limpar=this.limpar.bind(this);
@@ -30,39 +34,38 @@ import {
  
    limpar(){
      if(this.timer != null){
-       
        clearInterval(this.timer);
        this.timer=null;
-     }
-     this.setState({numero:0, botao:'INICIAR'})
+      }
+      let{mensagens}=this.state;
+      this.state.mensagens.push(<Text>{this.state.numero.toFixed(2)}</Text>)
+      this.setState({mensagens: [mensagens]})
+      this.setState({numero:0, botao:'INICIAR'})
    }
+  
 
   render(){
     return(
+      <ScrollView>
       <View style={estilo1.alinharTexto}>
         <Image 
           style={{width:120, height:120}}
           source={require('../../imagens/cronometropng.png')}
         />
-
         <Text >{this.state.numero.toFixed(2)}</Text>
-
         <View style ={estilo1.areaBotoes}>
-
           <TouchableOpacity style={estilo1.botoes} onPress={this.iniciar}>
             <Text >{this.state.botao}</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={estilo1.botoes}onPress={this.limpar} >
             <Text >ZERAR</Text>
           </TouchableOpacity>
-
         </View>
-        <View>
-          <Text></Text>
+      </View>
+        <View style={estilo1.alinharTexto}>
+          {this.state.mensagens}
         </View>
-
-      </View> 
+      </ScrollView>
     )
   }
 }
@@ -83,6 +86,6 @@ const estilo1 = StyleSheet.create({
   },
   areaBotoes:{
     flexDirection: 'row'
-  }
+  } 
 })
 export default Cronometro;
